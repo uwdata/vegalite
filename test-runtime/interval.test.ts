@@ -1,7 +1,7 @@
-import {TopLevelSpec} from '../src';
-import {SelectionType} from '../src/selection';
-import {brush, embedFn, geoSpec, hits as hitsMaster, spec, testRenderFn, tuples} from './util';
-import {Page} from 'puppeteer/lib/cjs/puppeteer/common/Page';
+import {TopLevelSpec} from '../src/index.js';
+import {SelectionType} from '../src/selection.js';
+import {brush, embedFn, geoSpec, hits as hitsMaster, spec, testRenderFn, tuples} from './util.js';
+import {Page} from 'puppeteer/lib/cjs/puppeteer/common/Page.js';
 
 describe('interval selections at runtime in unit views', () => {
   let page: Page;
@@ -147,8 +147,8 @@ describe('interval selections at runtime in unit views', () => {
 
     await embed(spec('unit', 0, {type, encodings: ['x']}, {values, x: {type: 'temporal'}}));
     let extents = [
-      [1485969714000, 1493634384000],
-      [1496346498000, 1504364922000]
+      [1485941328000, 1493607168000],
+      [1496319696000, 1504339344000]
     ];
     for (let i = 0; i < hits.drag.length; i++) {
       const store = toNumber(await page.evaluate(brush('drag', i)));
@@ -162,8 +162,8 @@ describe('interval selections at runtime in unit views', () => {
     await embed(spec('unit', 1, {type, encodings: ['x']}, {values, x: {type: 'temporal', timeUnit: 'day'}}));
 
     extents = [
-      [1325492928000, 1325664000000],
-      [1325752128000, 1325837664000]
+      [1325464128000, 1325635200000],
+      [1325723328000, 1325808864000]
     ];
     for (let i = 0; i < hits.drag.length; i++) {
       const store = toNumber(await page.evaluate(brush('drag', i)));

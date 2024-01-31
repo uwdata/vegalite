@@ -1,10 +1,10 @@
 // modified from vega-cli
 
-const vega = require('vega');
-const path = require('path');
-const args = require('./args');
-const read = require('./read');
-const vegaLite = require('..');
+import vega from 'vega';
+import path from 'path';
+import args from './args.js';
+import read from './read.js';
+import * as vegaLite from '../build/src/index.js';
 
 function load(file) {
   return require(path.resolve(file));
@@ -17,7 +17,7 @@ const Levels = {
   debug: vega.Debug
 };
 
-module.exports = (type, callback, opt) => {
+export default (type, callback, opt) => {
   // parse command line arguments
   const arg = args(type);
 
@@ -58,11 +58,14 @@ module.exports = (type, callback, opt) => {
       renderer: 'none' // no primary renderer needed
     }).finalize(); // clear any timers, etc
 
-    return (type === 'svg' ? view.toSVG(scale) : view.toCanvas(scale * ppi / 72, opt)).then(_ => callback(_, arg));
+    return (type === 'svg' ? view.toSVG(scale) : view.toCanvas((scale * ppi) / 72, opt)).then(_ => callback(_, arg));
   }
 
   // read input from file or stdin
   read(arg._[0] || null)
     .then(text => render(JSON.parse(text)))
-    .catch(err => { process.exitCode = 1; console.error(err); }); // eslint-disable-line no-console
+    .catch(err => {
+      process.exitCode = 1;
+      console.error(err);
+    }); // eslint-disable-line no-console
 };
