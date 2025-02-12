@@ -1,10 +1,10 @@
-import {TUPLE, isTimerSelection, unitName} from '.';
-import {SelectionCompiler} from '.';
+import {TUPLE, isTimerSelection, unitName} from './index.js';
+import {SelectionCompiler} from './index.js';
 
 export const TOGGLE = '_toggle';
 
 const toggle: SelectionCompiler<'point'> = {
-  defined: selCmpt => {
+  defined: (selCmpt) => {
     return selCmpt.type === 'point' && !isTimerSelection(selCmpt) && !!selCmpt.toggle;
   },
 
@@ -12,7 +12,7 @@ const toggle: SelectionCompiler<'point'> = {
     return signals.concat({
       name: selCmpt.name + TOGGLE,
       value: false,
-      on: [{events: selCmpt.events, update: selCmpt.toggle}]
+      on: [{events: selCmpt.events, update: selCmpt.toggle}],
     });
   },
 
@@ -25,7 +25,7 @@ const toggle: SelectionCompiler<'point'> = {
       (selCmpt.resolve === 'global' ? `${signal} ? null : true, ` : `${signal} ? null : {unit: ${unitName(model)}}, `) +
       `${signal} ? ${tpl} : null`
     );
-  }
+  },
 };
 
 export default toggle;
